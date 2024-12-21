@@ -101,6 +101,8 @@ radio.onReceivedString(function (receivedString) {
         programm = 1
         Würfel = 3
         Anzahl_Pixel = 3
+        strip.showColor(informatiktheater.colors(NeoPixelColors.Black))
+        basic.showNumber(programm)
     } else if (receivedString == "2") {
         programm = 2
     } else if (receivedString == "3") {
@@ -117,8 +119,9 @@ radio.onReceivedString(function (receivedString) {
         programm = 8
     } else if (receivedString == "9") {
         programm = 9
-    } else if (("" as any) == ("0" as any)) {
+    } else if (receivedString == "0") {
         programm = 0
+        basic.showNumber(programm)
     } else if (receivedString == "A") {
         programm = 10
     } else if (receivedString == "B") {
@@ -145,11 +148,44 @@ function Stab_füllen () {
     }
     basic.showIcon(IconNames.Yes)
     if (Anzahl_Pixel >= 60) {
-        music._playDefaultBackground(music.builtInPlayableMelody(Melodies.Dadadadum), music.PlaybackMode.UntilDone)
+        basic.showIcon(IconNames.Happy)
+        music.setVolume(30)
+        music._playDefaultBackground(music.builtInPlayableMelody(Melodies.Dadadadum), music.PlaybackMode.InBackground)
+        for (let index = 0; index < 6; index++) {
+            strip.showRainbow(1, 255)
+            strip.show()
+            basic.pause(500)
+            strip.clear()
+            strip.show()
+            basic.pause(200)
+        }
     }
     basic.clearScreen()
     Würfel = 0
 }
+input.onButtonPressed(Button.B, function () {
+    if (programm == 0) {
+    	
+    } else if (programm == 1) {
+    	
+    } else if (programm == 2) {
+    	
+    } else if (programm == 3) {
+    	
+    } else if (programm == 4) {
+    	
+    } else if (programm == 5) {
+    	
+    } else if (programm == 6) {
+    	
+    } else if (programm == 7) {
+    	
+    } else if (programm == 8) {
+    	
+    } else {
+    	
+    }
+})
 let Anzahl_Pixel = 0
 let Würfel = 0
 let programm = 0
@@ -158,6 +194,7 @@ strip = informatiktheater.create(HiwonderPins.P2, 60, PowerSource.Intern)
 strip.setBrightness(150)
 radio.setGroup(1)
 programm = 1
+music.stopAllSounds()
 basic.forever(function () {
     if (programm == 0) {
         strip.showColor(informatiktheater.rgb(50, 0, 0))
