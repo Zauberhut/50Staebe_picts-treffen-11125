@@ -74,7 +74,27 @@ function würfeln () {
     }
 }
 input.onGesture(Gesture.Shake, function () {
-    würfeln()
+    if (programm == 0) {
+    	
+    } else if (programm == 1) {
+        würfeln()
+    } else if (programm == 2) {
+    	
+    } else if (programm == 3) {
+    	
+    } else if (programm == 4) {
+    	
+    } else if (programm == 5) {
+    	
+    } else if (programm == 6) {
+    	
+    } else if (programm == 7) {
+    	
+    } else if (programm == 8) {
+    	
+    } else {
+    	
+    }
 })
 radio.onReceivedString(function (receivedString) {
     if (receivedString == "1") {
