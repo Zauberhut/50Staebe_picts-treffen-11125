@@ -143,28 +143,32 @@ function Zufallsfarben () {
         for (let Index = 0; Index <= strip.length(); Index++) {
             strip.setPixelColorRange(Index * 2, informatiktheater.colors(NeoPixelColors.Red), 1)
         }
+        strip.show()
     } else if (Farbe == 1) {
         strip.showColor(informatiktheater.colors(NeoPixelColors.Green))
         for (let Index = 0; Index <= strip.length(); Index++) {
             strip.setPixelColorRange(Index * 8, informatiktheater.colors(NeoPixelColors.Blue), 4)
         }
+        strip.show()
     } else if (Farbe == 2) {
         strip.showColor(informatiktheater.colors(NeoPixelColors.Red))
         for (let Index = 0; Index <= 30; Index++) {
             strip.setPixelColorRange(Index * 1, informatiktheater.colors(NeoPixelColors.Green), 1)
         }
+        strip.show()
     } else if (Farbe == 3) {
         strip.showColor(informatiktheater.colors(NeoPixelColors.Blue))
         for (let Index = 0; Index <= strip.length(); Index++) {
             strip.setPixelColorRange(Index * 12, informatiktheater.colors(NeoPixelColors.White), 6)
         }
+        strip.show()
     } else {
         strip.showColor(informatiktheater.colors(NeoPixelColors.Yellow))
         for (let Index = 0; Index <= strip.length(); Index++) {
             strip.setPixelColorRange(Index * 4, informatiktheater.colors(NeoPixelColors.Blue), 2)
         }
+        strip.show()
     }
-    strip.show()
 }
 radio.onReceivedString(function (receivedString) {
     if (receivedString == "1") {
