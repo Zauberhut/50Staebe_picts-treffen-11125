@@ -1,4 +1,21 @@
 function Stab_füllen () {
+    if (Anzahl_Pixel == 0) {
+        strip.clear()
+        strip.show()
+    }
+    for (let index = 0; index < Würfel; index++) {
+        music.play(music.createSoundExpression(
+        WaveShape.Square,
+        1,
+        5000,
+        255,
+        0,
+        300,
+        SoundExpressionEffect.None,
+        InterpolationCurve.Linear
+        ), music.PlaybackMode.UntilDone)
+    }
+    basic.clearScreen()
     strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.White), Anzahl_Pixel)
     strip.setPixelColorRange(Anzahl_Pixel, informatiktheater.colors(NeoPixelColors.Green), Würfel)
     strip.show()
@@ -19,9 +36,6 @@ function Stab_füllen () {
         strip.showRainbow(1, 255)
     } else {
         basic.clearScreen()
-        for (let Index = 0; Index <= Würfel; Index++) {
-        	
-        }
     }
     basic.clearScreen()
 }
@@ -49,12 +63,10 @@ input.onButtonPressed(Button.A, function () {
     }
 })
 function würfeln () {
-    for (let index = 0; index < 3; index++) {
-        basic.showIcon(IconNames.Square)
-        basic.pause(30)
-        basic.showIcon(IconNames.SmallSquare)
-        basic.pause(30)
-    }
+    music.play(music.tonePlayable(523, music.beat(BeatFraction.Sixteenth)), music.PlaybackMode.UntilDone)
+    basic.showIcon(IconNames.SmallSquare)
+    music.play(music.tonePlayable(392, music.beat(BeatFraction.Sixteenth)), music.PlaybackMode.InBackground)
+    basic.showIcon(IconNames.Square)
     if (Würfel == 0) {
         Würfel = randint(1, 6)
     }
@@ -114,9 +126,6 @@ input.onGesture(Gesture.Shake, function () {
     } else if (programm == 1) {
         Würfel = 0
         würfeln()
-        if (Würfel == 0) {
-        	
-        }
     } else if (programm == 2) {
     	
     } else if (programm == 3) {
@@ -174,8 +183,6 @@ radio.onReceivedString(function (receivedString) {
     if (receivedString == "1") {
         programm = 1
         basic.showNumber(programm)
-        strip.showColor(informatiktheater.colors(NeoPixelColors.Black))
-        strip.show()
         Würfel = 0
         Anzahl_Pixel = 0
     } else if (receivedString == "2") {
@@ -243,6 +250,28 @@ input.onButtonPressed(Button.B, function () {
     } else {
     	
     }
+})
+input.onLogoEvent(TouchButtonEvent.LongPressed, function () {
+    music.play(music.tonePlayable(523, music.beat(BeatFraction.Half)), music.PlaybackMode.UntilDone)
+    if (programm == 0) {
+        programm += 1
+        Würfel = 0
+        Anzahl_Pixel = 0
+    } else if (programm == 1) {
+        programm += 1
+    } else if (programm == 2) {
+        programm += 1
+        Zufallsfarben()
+    } else if (programm == 3) {
+        programm += 1
+    } else if (programm == 4) {
+        programm += 1
+    } else {
+        programm = 0
+        strip.showColor(informatiktheater.rgb(50, 0, 0))
+        strip.show()
+    }
+    basic.showNumber(programm)
 })
 function balancieren () {
     strip.clear()
