@@ -59,8 +59,7 @@ input.onButtonPressed(Button.A, function () {
     	
     } else if (programm == 5) {
         strip.clear()
-        strip.showColor(informatiktheater.rgb(0, 0, 30))
-        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Red), 4)
+        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Red), 10)
         strip.show()
     } else if (programm == 6) {
     	
@@ -196,7 +195,6 @@ radio.onReceivedString(function (receivedString) {
         Anzahl_Pixel = 0
     } else if (receivedString == "2") {
         programm = 2
-        basic.showNumber(programm)
         Punkte = 0
         Position = 30
         strip.clear()
@@ -205,11 +203,9 @@ radio.onReceivedString(function (receivedString) {
         basic.pause(5000)
     } else if (receivedString == "3") {
         programm = 3
-        basic.showNumber(programm)
         Zufallsfarben()
     } else if (receivedString == "4") {
         programm = 4
-        basic.showNumber(programm)
         strip.clear()
         strip.show()
     } else if (receivedString == "5") {
@@ -258,8 +254,7 @@ input.onButtonPressed(Button.B, function () {
     	
     } else if (programm == 5) {
         strip.clear()
-        strip.showColor(informatiktheater.rgb(0, 0, 30))
-        strip.setPixelColorRange(strip.length() - 4, informatiktheater.colors(NeoPixelColors.Green), 4)
+        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.White), 10)
         strip.show()
     } else if (programm == 6) {
     	
@@ -386,7 +381,8 @@ basic.forever(function () {
             strip.show()
         }
     } else if (programm == 5) {
-        strip.rotate(input.acceleration(Dimension.X) / 80)
+        strip.shift(input.acceleration(Dimension.X) / 80)
+        strip.rotate(0)
         strip.show()
     } else {
     	
