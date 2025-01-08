@@ -4,20 +4,6 @@ function Stab_füllen () {
         strip.clear()
         strip.show()
     }
-    if (Anzahl_Pixel >= 60) {
-        basic.showIcon(IconNames.Happy)
-        music.setVolume(255)
-        music._playDefaultBackground(music.builtInPlayableMelody(Melodies.Entertainer), music.PlaybackMode.InBackground)
-        for (let index = 0; index < 6; index++) {
-            strip.showRainbow(1, 255)
-            strip.show()
-            basic.pause(500)
-            strip.clear()
-            strip.show()
-            basic.pause(200)
-        }
-        strip.showRainbow(1, 255)
-    }
     if (übertragenblockieren == 0) {
         for (let index1 = 0; index1 <= 4; index1++) {
             for (let Index = 0; Index <= 4; Index++) {
@@ -44,13 +30,30 @@ function Stab_füllen () {
         music.play(music.tonePlayable(392, music.beat(BeatFraction.Sixteenth)), music.PlaybackMode.InBackground)
         basic.showIcon(IconNames.Square)
     }
+    if (Anzahl_Pixel >= 60) {
+        basic.showIcon(IconNames.Happy)
+        music.setVolume(255)
+        music._playDefaultBackground(music.builtInPlayableMelody(Melodies.Entertainer), music.PlaybackMode.InBackground)
+        for (let index = 0; index < 6; index++) {
+            strip.showRainbow(1, 255)
+            strip.show()
+            basic.pause(500)
+            strip.clear()
+            strip.show()
+            basic.pause(200)
+        }
+        strip.showRainbow(1, 255)
+        Zielerreicht = 1
+    }
     würfelnblockieren = 0
 }
 input.onButtonPressed(Button.A, function () {
     if (programm == 0) {
     	
     } else if (programm == 1) {
-        Stab_füllen()
+        if (Zielerreicht != 1) {
+            Stab_füllen()
+        }
     } else if (programm == 2) {
     	
     } else if (programm == 3) {
@@ -193,14 +196,15 @@ radio.onReceivedString(function (receivedString) {
         strip.show()
         Würfel = 0
         Anzahl_Pixel = 0
+        Zielerreicht = 0
     } else if (receivedString == "2") {
-        programm = 2
         Punkte = 0
         Position = 30
         strip.clear()
         strip.setPixelColorRange(Position, informatiktheater.colors(NeoPixelColors.Green), 3)
         strip.show()
         basic.pause(5000)
+        programm = 2
     } else if (receivedString == "3") {
         programm = 3
         Zufallsfarben()
@@ -214,16 +218,19 @@ radio.onReceivedString(function (receivedString) {
         strip.show()
     } else if (receivedString == "6") {
         programm = 6
+        strip.clear()
+        strip.showRainbow(1, 255)
     } else if (receivedString == "7") {
         programm = 7
+        Programm_1()
     } else if (receivedString == "8") {
         programm = 8
     } else if (receivedString == "9") {
         programm = 9
     } else if (receivedString == "0") {
         programm = 0
-        strip.showColor(informatiktheater.rgb(50, 0, 0))
-        strip.show()
+        strip.clear()
+        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Blue), 1)
     } else if (receivedString == "A") {
         programm = 10
     } else if (receivedString == "B") {
@@ -254,7 +261,7 @@ input.onButtonPressed(Button.B, function () {
     	
     } else if (programm == 5) {
         strip.clear()
-        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.White), 10)
+        strip.setPixelColorRange(50, informatiktheater.colors(NeoPixelColors.White), 10)
         strip.show()
     } else if (programm == 6) {
     	
@@ -286,7 +293,14 @@ input.onLogoEvent(TouchButtonEvent.LongPressed, function () {
         programm += 1
         Würfel = 0
         Anzahl_Pixel = 0
+        Zielerreicht = 0
     } else if (programm == 1) {
+        Punkte = 0
+        Position = 30
+        strip.clear()
+        strip.setPixelColorRange(Position, informatiktheater.colors(NeoPixelColors.Green), 3)
+        strip.show()
+        basic.pause(5000)
         programm += 1
     } else if (programm == 2) {
         programm += 1
@@ -296,14 +310,22 @@ input.onLogoEvent(TouchButtonEvent.LongPressed, function () {
     } else if (programm == 4) {
         programm += 1
     } else if (programm == 5) {
-        programm = 0
+        programm = 6
     } else {
         programm = 0
-        strip.showColor(informatiktheater.rgb(50, 0, 0))
-        strip.show()
+        strip.clear()
+        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Blue), 1)
     }
     basic.showNumber(programm)
 })
+function Programm_1 () {
+    strip.showColor(informatiktheater.rgb(50, 0, 0))
+    strip.show()
+}
+function Programm_off () {
+    strip.showColor(informatiktheater.colors(NeoPixelColors.Black))
+    strip.show()
+}
 function balancieren () {
     strip.clear()
     strip.setPixelColorRange(Position, informatiktheater.colors(NeoPixelColors.Red), 1)
@@ -329,25 +351,35 @@ function balancieren () {
     }
 }
 let Lage = 0
-let Position = 0
 let Punkte = 0
 let Farbe = 0
 let Würfel = 0
 let übertragenblockieren = 0
 let Anzahl_Pixel = 0
 let würfelnblockieren = 0
+let Zielerreicht = 0
+let Position = 0
 let programm = 0
 let strip: informatiktheater.Strip = null
 strip = informatiktheater.create(HiwonderPins.P2, 60, PowerSource.Intern)
 radio.setGroup(1)
 programm = 0
+Position = 30
+Zielerreicht = 0
+Programm_off()
 basic.showNumber(programm)
 music.stopAllSounds()
+strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Blue), 1)
 basic.forever(function () {
     if (programm == 0) {
-    	
+        strip.rotate(1)
+        strip.show()
+        basic.pause(10)
     } else if (programm == 1) {
-    	
+        if (Zielerreicht == 1) {
+            strip.rotate(1)
+            strip.show()
+        }
     } else if (programm == 2) {
         balancieren()
     } else if (programm == 3) {
@@ -384,6 +416,14 @@ basic.forever(function () {
         strip.shift(input.acceleration(Dimension.X) / 80)
         strip.rotate(0)
         strip.show()
+    } else if (programm == 6) {
+        strip.rotate(1)
+        strip.show()
+        basic.pause(10)
+    } else if (programm == 7) {
+    	
+    } else if (false) {
+    	
     } else {
     	
     }
