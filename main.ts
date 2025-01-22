@@ -47,13 +47,60 @@ function Stab_füllen () {
     }
     würfelnblockieren = 0
 }
+input.onLogoEvent(TouchButtonEvent.Pressed, function () {
+    music.play(music.tonePlayable(523, music.beat(BeatFraction.Half)), music.PlaybackMode.UntilDone)
+    programm += 1
+    if (programm > 9) {
+        programm = 0
+    }
+    basic.showNumber(programm)
+    if (programm == 0) {
+        Würfel = 0
+        Anzahl_Pixel = 0
+        Zielerreicht = 0
+    } else if (programm == 1) {
+        strip.clear()
+        strip.show()
+    } else if (programm == 2) {
+    	
+    } else if (programm == 3) {
+        Zufallsfarben()
+    } else if (programm == 4) {
+        strip.clear()
+        strip.show()
+    } else if (programm == 5) {
+        strip.clear()
+        strip.show()
+    } else if (programm == 6) {
+        strip.showRainbow(1, 255)
+    } else if (programm == 7) {
+        Programm_1()
+    } else if (programm == 8) {
+        strip.clear()
+        strip.show()
+        Punkte = 0
+        Position = 30
+        strip.clear()
+        strip.setPixelColorRange(Position, informatiktheater.colors(NeoPixelColors.Green), 3)
+        strip.show()
+    } else if (programm == 9) {
+        strip.clear()
+        strip.show()
+        Würfel = 0
+        Anzahl_Pixel = 0
+        Zielerreicht = 0
+    } else {
+        strip.clear()
+        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Blue), 1)
+    }
+    basic.pause(200)
+    basic.clearScreen()
+})
 input.onButtonPressed(Button.A, function () {
     if (programm == 0) {
     	
     } else if (programm == 1) {
-        if (Zielerreicht != 1) {
-            Stab_füllen()
-        }
+    	
     } else if (programm == 2) {
     	
     } else if (programm == 3) {
@@ -70,6 +117,10 @@ input.onButtonPressed(Button.A, function () {
     	
     } else if (programm == 8) {
     	
+    } else if (programm == 9) {
+        if (Zielerreicht != 1) {
+            Stab_füllen()
+        }
     } else {
     	
     }
@@ -135,7 +186,7 @@ input.onGesture(Gesture.Shake, function () {
     if (programm == 0) {
     	
     } else if (programm == 1) {
-        würfeln()
+    	
     } else if (programm == 2) {
     	
     } else if (programm == 3) {
@@ -150,6 +201,8 @@ input.onGesture(Gesture.Shake, function () {
     	
     } else if (programm == 8) {
     	
+    } else if (programm == 9) {
+        würfeln()
     } else {
     	
     }
@@ -192,19 +245,8 @@ function Zufallsfarben () {
 radio.onReceivedString(function (receivedString) {
     if (receivedString == "1") {
         programm = 1
-        strip.clear()
-        strip.show()
-        Würfel = 0
-        Anzahl_Pixel = 0
-        Zielerreicht = 0
     } else if (receivedString == "2") {
-        Punkte = 0
-        Position = 30
-        strip.clear()
-        strip.setPixelColorRange(Position, informatiktheater.colors(NeoPixelColors.Green), 3)
-        strip.show()
-        basic.pause(5000)
-        programm = 2
+    	
     } else if (receivedString == "3") {
         programm = 3
         Zufallsfarben()
@@ -224,9 +266,20 @@ radio.onReceivedString(function (receivedString) {
         programm = 7
         Programm_1()
     } else if (receivedString == "8") {
+        programm = 2
+        Punkte = 0
+        Position = 30
+        strip.clear()
+        strip.setPixelColorRange(Position, informatiktheater.colors(NeoPixelColors.Green), 3)
+        strip.show()
         programm = 8
     } else if (receivedString == "9") {
         programm = 9
+        strip.clear()
+        strip.show()
+        Würfel = 0
+        Anzahl_Pixel = 0
+        Zielerreicht = 0
     } else if (receivedString == "0") {
         programm = 0
         strip.clear()
@@ -247,6 +300,8 @@ radio.onReceivedString(function (receivedString) {
     	
     }
     basic.showNumber(programm)
+    basic.pause(200)
+    basic.clearScreen()
 })
 input.onButtonPressed(Button.B, function () {
     if (programm == 0) {
@@ -287,37 +342,6 @@ function SchäreSteiPapier () {
     }
     strip.show()
 }
-input.onLogoEvent(TouchButtonEvent.LongPressed, function () {
-    music.play(music.tonePlayable(523, music.beat(BeatFraction.Half)), music.PlaybackMode.UntilDone)
-    if (programm == 0) {
-        programm += 1
-        Würfel = 0
-        Anzahl_Pixel = 0
-        Zielerreicht = 0
-    } else if (programm == 1) {
-        Punkte = 0
-        Position = 30
-        strip.clear()
-        strip.setPixelColorRange(Position, informatiktheater.colors(NeoPixelColors.Green), 3)
-        strip.show()
-        basic.pause(5000)
-        programm += 1
-    } else if (programm == 2) {
-        programm += 1
-        Zufallsfarben()
-    } else if (programm == 3) {
-        programm += 1
-    } else if (programm == 4) {
-        programm += 1
-    } else if (programm == 5) {
-        programm = 6
-    } else {
-        programm = 0
-        strip.clear()
-        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Blue), 1)
-    }
-    basic.showNumber(programm)
-})
 function Programm_1 () {
     strip.showColor(informatiktheater.rgb(50, 0, 0))
     strip.show()
@@ -332,7 +356,7 @@ function balancieren () {
     strip.show()
     Position += input.acceleration(Dimension.X) / 50
     if (Position > strip.length() || Position < 0) {
-        music.play(music.createSoundExpression(WaveShape.Square, 5000, 0, 255, 255, 500, SoundExpressionEffect.Vibrato, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
+        music.play(music.createSoundExpression(WaveShape.Square, 5000, 0, 47, 0, 500, SoundExpressionEffect.Vibrato, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
         for (let index = 0; index < 4; index++) {
             strip.showColor(informatiktheater.colors(NeoPixelColors.Red))
             strip.show()
@@ -351,8 +375,8 @@ function balancieren () {
     }
 }
 let Lage = 0
-let Punkte = 0
 let Farbe = 0
+let Punkte = 0
 let Würfel = 0
 let übertragenblockieren = 0
 let Anzahl_Pixel = 0
@@ -376,12 +400,12 @@ basic.forever(function () {
         strip.show()
         basic.pause(10)
     } else if (programm == 1) {
-        if (Zielerreicht == 1) {
-            strip.rotate(1)
-            strip.show()
-        }
+        strip.clear()
+        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.White), Math.map(input.soundLevel(), 40, 180, 0, 60))
+        strip.show()
+        basic.pause(50)
     } else if (programm == 2) {
-        balancieren()
+    	
     } else if (programm == 3) {
     	
     } else if (programm == 4) {
@@ -413,17 +437,22 @@ basic.forever(function () {
             strip.show()
         }
     } else if (programm == 5) {
-        strip.shift(input.acceleration(Dimension.X) / 80)
+        strip.shift(input.acceleration(Dimension.X) / -80)
         strip.rotate(0)
         strip.show()
     } else if (programm == 6) {
-        strip.rotate(1)
+        strip.rotate(input.acceleration(Dimension.X) / 200)
         strip.show()
         basic.pause(10)
     } else if (programm == 7) {
     	
-    } else if (false) {
-    	
+    } else if (programm == 8) {
+        balancieren()
+    } else if (programm == 9) {
+        if (Zielerreicht == 1) {
+            strip.rotate(1)
+            strip.show()
+        }
     } else {
     	
     }
