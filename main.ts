@@ -55,9 +55,9 @@ input.onLogoEvent(TouchButtonEvent.Pressed, function () {
     }
     basic.showNumber(programm)
     if (programm == 0) {
-        Würfel = 0
-        Anzahl_Pixel = 0
-        Zielerreicht = 0
+        strip.clear()
+        strip.setPixelColorRange(30, informatiktheater.colors(NeoPixelColors.Blue), 1)
+        strip.show()
     } else if (programm == 1) {
         strip.clear()
         strip.show()
@@ -70,6 +70,9 @@ input.onLogoEvent(TouchButtonEvent.Pressed, function () {
         strip.show()
     } else if (programm == 5) {
         strip.clear()
+        strip.setPixelColorRange(50, informatiktheater.colors(NeoPixelColors.Violet), 10)
+        strip.show()
+        basic.pause(10)
         strip.show()
     } else if (programm == 6) {
         strip.showRainbow(1, 255)
@@ -108,13 +111,13 @@ input.onButtonPressed(Button.A, function () {
     } else if (programm == 4) {
     	
     } else if (programm == 5) {
-        strip.clear()
-        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Red), 10)
-        strip.show()
+    	
     } else if (programm == 6) {
     	
     } else if (programm == 7) {
-    	
+        radio.sendString("rot")
+        strip.showColor(informatiktheater.colors(NeoPixelColors.Red))
+        strip.show()
     } else if (programm == 8) {
     	
     } else if (programm == 9) {
@@ -190,7 +193,7 @@ input.onGesture(Gesture.Shake, function () {
     } else if (programm == 2) {
     	
     } else if (programm == 3) {
-    	
+        Zufallsfarben()
     } else if (programm == 4) {
     	
     } else if (programm == 5) {
@@ -203,6 +206,31 @@ input.onGesture(Gesture.Shake, function () {
     	
     } else if (programm == 9) {
         würfeln()
+    } else {
+    	
+    }
+})
+input.onButtonPressed(Button.AB, function () {
+    if (programm == 0) {
+    	
+    } else if (programm == 1) {
+    	
+    } else if (programm == 2) {
+    	
+    } else if (programm == 3) {
+    	
+    } else if (programm == 4) {
+    	
+    } else if (programm == 5) {
+    	
+    } else if (programm == 6) {
+    	
+    } else if (programm == 7) {
+        radio.sendString("blau")
+        strip.showColor(informatiktheater.colors(NeoPixelColors.Blue))
+        strip.show()
+    } else if (programm == 8) {
+    	
     } else {
     	
     }
@@ -246,7 +274,7 @@ radio.onReceivedString(function (receivedString) {
     if (receivedString == "1") {
         programm = 1
     } else if (receivedString == "2") {
-    	
+        programm = 2
     } else if (receivedString == "3") {
         programm = 3
         Zufallsfarben()
@@ -264,7 +292,6 @@ radio.onReceivedString(function (receivedString) {
         strip.showRainbow(1, 255)
     } else if (receivedString == "7") {
         programm = 7
-        Programm_1()
     } else if (receivedString == "8") {
         programm = 2
         Punkte = 0
@@ -283,7 +310,7 @@ radio.onReceivedString(function (receivedString) {
     } else if (receivedString == "0") {
         programm = 0
         strip.clear()
-        strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Blue), 1)
+        strip.setPixelColorRange(30, informatiktheater.colors(NeoPixelColors.Blue), 1)
     } else if (receivedString == "A") {
         programm = 10
     } else if (receivedString == "B") {
@@ -296,6 +323,15 @@ radio.onReceivedString(function (receivedString) {
         programm = 14
     } else if (receivedString == "#") {
         programm = 15
+    } else if (receivedString == "grün") {
+        strip.showColor(informatiktheater.colors(NeoPixelColors.Green))
+        strip.show()
+    } else if (receivedString == "rot") {
+        strip.showColor(informatiktheater.colors(NeoPixelColors.Red))
+        strip.show()
+    } else if (receivedString == "blau") {
+        strip.showColor(informatiktheater.colors(NeoPixelColors.Blue))
+        strip.show()
     } else {
     	
     }
@@ -315,13 +351,13 @@ input.onButtonPressed(Button.B, function () {
     } else if (programm == 4) {
     	
     } else if (programm == 5) {
-        strip.clear()
-        strip.setPixelColorRange(50, informatiktheater.colors(NeoPixelColors.White), 10)
-        strip.show()
+    	
     } else if (programm == 6) {
     	
     } else if (programm == 7) {
-    	
+        radio.sendString("grün")
+        strip.showColor(informatiktheater.colors(NeoPixelColors.Green))
+        strip.show()
     } else if (programm == 8) {
     	
     } else {
@@ -375,6 +411,8 @@ function balancieren () {
     }
 }
 let Lage = 0
+let blau = 0
+let gruen = 0
 let Farbe = 0
 let Punkte = 0
 let Würfel = 0
@@ -396,16 +434,26 @@ music.stopAllSounds()
 strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Blue), 1)
 basic.forever(function () {
     if (programm == 0) {
-        strip.rotate(1)
-        strip.show()
-        basic.pause(10)
+        if (input.buttonIsPressed(Button.A)) {
+            strip.rotate(1)
+            strip.show()
+            basic.pause(10)
+        } else if (input.buttonIsPressed(Button.B)) {
+            strip.rotate(-1)
+            strip.show()
+            basic.pause(10)
+        }
     } else if (programm == 1) {
         strip.clear()
         strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.White), Math.map(input.soundLevel(), 40, 180, 0, 60))
         strip.show()
         basic.pause(50)
     } else if (programm == 2) {
-    	
+        gruen = Math.map(input.acceleration(Dimension.X), -1300, 500, 0, 255)
+        blau = Math.map(input.acceleration(Dimension.X), 500, -1300, 0, 255)
+        strip.showColor(informatiktheater.rgb(0, Math.constrain(gruen, 0, 255), Math.constrain(blau, 0, 255)))
+        strip.show()
+        basic.pause(50)
     } else if (programm == 3) {
     	
     } else if (programm == 4) {
@@ -437,8 +485,24 @@ basic.forever(function () {
             strip.show()
         }
     } else if (programm == 5) {
-        strip.shift(input.acceleration(Dimension.X) / -80)
-        strip.rotate(0)
+        if (input.buttonIsPressed(Button.A)) {
+            strip.clear()
+            strip.setPixelColorRange(0, informatiktheater.colors(NeoPixelColors.Red), 10)
+            strip.show()
+            basic.pause(10)
+        } else if (input.buttonIsPressed(Button.B)) {
+            strip.clear()
+            strip.setPixelColorRange(50, informatiktheater.colors(NeoPixelColors.White), 10)
+            strip.show()
+            basic.pause(10)
+        }
+        if (input.buttonIsPressed(Button.AB)) {
+            strip.clear()
+            strip.show()
+            basic.pause(40)
+        }
+        strip.shift(0)
+        strip.rotate(input.acceleration(Dimension.X) / -80)
         strip.show()
     } else if (programm == 6) {
         strip.rotate(input.acceleration(Dimension.X) / 200)
